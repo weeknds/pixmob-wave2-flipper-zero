@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/banner.svg" alt="PixMob Wave2 — Flipper Zero RF Controller · 868.415 MHz · Sub-GHz · Group 0" width="820">
+  <img src="assets/banner.svg?v=2" alt="PixMob Wave2 — Flipper Zero RF Controller · 868.415 MHz · Sub-GHz · Group 0" width="820">
 </div>
 
 <div align="center">
