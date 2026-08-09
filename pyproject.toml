@@ -1,0 +1,17 @@
+[project]
+name = "pixmob-wave2-flipper-zero"
+version = "1.0.0"
+description = "Generate Flipper Zero Sub-GHz signals for PixMob Wave2 wristbands"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "weeknds" }]
+keywords = [
+  "flipper-zero",
+  "pixmob",
+  "waveband",
+  "sub-ghz",
+  "reverse-engineering",
+]
+
+[tool.ruff]
+line-length = 100
