@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://weeknds.github.io/pixmob-wave2-flipper-zero/sitemap.xml

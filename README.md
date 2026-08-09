@@ -9,6 +9,10 @@
   [![GitHub release](https://img.shields.io/github/v/release/weeknds/pixmob-wave2-flipper-zero?display_name=tag)](https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest)
   [![License: MIT](https://img.shields.io/badge/License-MIT-7c3aed.svg)](LICENSE)
   ![Frequency: 868.415 MHz](https://img.shields.io/badge/RF-868.415%20MHz-06b6d4)
+
+  [Project page](https://weeknds.github.io/pixmob-wave2-flipper-zero/) ·
+  [Download latest release](https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip) ·
+  [RF protocol](PROTOCOL.md)
 </div>
 
 This repository contains ready-to-use Flipper Zero `.sub` files for European
