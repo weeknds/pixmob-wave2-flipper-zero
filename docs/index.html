@@ -1,227 +1,594 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PixMob Wave2 Flipper Zero Controller — 868 MHz Waveband 2 Sub-GHz Files</title>
-  <meta name="description" content="Reactivate and control a PixMob Wave2 or Waveband 2 RF LED wristband with Flipper Zero. Download tested 868.415 MHz Sub-GHz files with colors, wake sequence, quick control, and OFF command.">
-  <meta name="keywords" content="PixMob Wave2, Waveband 2, Flipper Zero, PixMob wristband hack, PixMob reactivation, Flipper Zero Sub-GHz, 868 MHz, CC1101, LED wristband controller, PixMob OFF command">
-  <meta name="author" content="weeknds">
-  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-  <meta name="theme-color" content="#11102b">
-  <link rel="canonical" href="https://weeknds.github.io/pixmob-wave2-flipper-zero/">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="PixMob Wave2 Controller for Flipper Zero">
-  <meta property="og:description" content="Ready-to-use 868.415 MHz Sub-GHz files for PixMob Wave2 / Waveband 2 RF LED wristbands.">
-  <meta property="og:url" content="https://weeknds.github.io/pixmob-wave2-flipper-zero/">
-  <meta property="og:image" content="https://raw.githubusercontent.com/weeknds/pixmob-wave2-flipper-zero/main/assets/banner.svg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="PixMob Wave2 Controller for Flipper Zero">
-  <meta name="twitter:description" content="Colors, wake sequence, quick control, and OFF for 868 MHz PixMob Waveband 2 wristbands.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/weeknds/pixmob-wave2-flipper-zero/main/assets/banner.svg">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareSourceCode",
-    "name": "PixMob Wave2 Flipper Zero Controller",
-    "alternateName": "PixMob Waveband 2 Sub-GHz Controller",
-    "description": "Open-source Flipper Zero Sub-GHz signals and generator for European PixMob Wave2 / Waveband 2 RF LED wristbands.",
-    "codeRepository": "https://github.com/weeknds/pixmob-wave2-flipper-zero",
-    "downloadUrl": "https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip",
-    "license": "https://opensource.org/licenses/MIT",
-    "programmingLanguage": "Python",
-    "runtimePlatform": "Flipper Zero",
-    "operatingSystem": "Flipper Zero firmware",
-    "keywords": "PixMob Wave2, Waveband 2, Flipper Zero, Sub-GHz, 868.415 MHz, CC1101, LED wristband"
-  }
-  </script>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #080914;
-      --surface: rgba(255, 255, 255, .055);
-      --line: rgba(255, 255, 255, .1);
-      --text: #f8fafc;
-      --muted: #b9c2d3;
-      --cyan: #22d3ee;
-      --violet: #8b5cf6;
-      --orange: #fb923c;
-      --green: #4ade80;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 15% 10%, rgba(34, 211, 238, .13), transparent 28rem),
-        radial-gradient(circle at 85% 18%, rgba(139, 92, 246, .16), transparent 30rem),
-        var(--bg);
-      font: 16px/1.65 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    a { color: inherit; }
-    .wrap { width: min(1120px, calc(100% - 40px)); margin: auto; }
-    nav {
-      position: sticky; top: 0; z-index: 10;
-      backdrop-filter: blur(18px);
-      background: rgba(8, 9, 20, .76);
-      border-bottom: 1px solid var(--line);
-    }
-    nav .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 66px; }
-    .brand { text-decoration: none; font-weight: 800; letter-spacing: -.02em; }
-    .brand span { color: var(--cyan); }
-    .links { display: flex; align-items: center; gap: 22px; }
-    .links a { color: var(--muted); text-decoration: none; font-weight: 650; font-size: 14px; }
-    .links a:hover { color: var(--text); }
-    .hero { padding: 94px 0 72px; text-align: center; }
-    .pill {
-      display: inline-flex; gap: 9px; align-items: center;
-      padding: 8px 14px; border: 1px solid rgba(34, 211, 238, .25);
-      border-radius: 999px; color: #a5f3fc; background: rgba(34, 211, 238, .07);
-      font-size: 13px; font-weight: 750; letter-spacing: .03em; text-transform: uppercase;
-    }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 14px var(--green); }
-    h1 { margin: 24px auto 18px; max-width: 900px; font-size: clamp(44px, 7.5vw, 82px); line-height: .98; letter-spacing: -.055em; }
-    h1 em { font-style: normal; background: linear-gradient(90deg, var(--cyan), #818cf8, #e879f9); color: transparent; background-clip: text; }
-    .lead { max-width: 760px; margin: 0 auto; color: var(--muted); font-size: clamp(18px, 2.3vw, 22px); }
-    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 34px; }
-    .button {
-      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-      min-height: 50px; padding: 0 21px; border-radius: 14px; border: 1px solid var(--line);
-      text-decoration: none; font-weight: 760; background: var(--surface);
-    }
-    .button.primary { color: #061017; border: 0; background: linear-gradient(90deg, var(--cyan), #60a5fa); }
-    .button:hover { transform: translateY(-1px); filter: brightness(1.08); }
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 60px; }
-    .stat, .card { border: 1px solid var(--line); background: var(--surface); border-radius: 18px; }
-    .stat { padding: 20px 14px; }
-    .stat strong { display: block; font-size: 25px; }
-    .stat span { color: var(--muted); font-size: 13px; }
-    section { padding: 72px 0; }
-    h2 { margin: 0 0 12px; font-size: clamp(30px, 4vw, 46px); letter-spacing: -.035em; }
-    .section-lead { max-width: 720px; margin: 0 0 30px; color: var(--muted); font-size: 18px; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .card { padding: 26px; }
-    .card h3 { margin: 0 0 8px; font-size: 20px; }
-    .card p { margin: 0; color: var(--muted); }
-    .icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 18px; border-radius: 12px; background: rgba(139, 92, 246, .15); font-size: 21px; }
-    .timeline { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; margin-top: 28px; }
-    .phase { padding: 28px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); }
-    .phase strong { display: block; font-size: 21px; }
-    .phase span { color: var(--muted); }
-    .arrow { color: var(--cyan); font-size: 34px; }
-    code { padding: 2px 7px; border-radius: 7px; background: rgba(255,255,255,.08); color: #bae6fd; }
-    .colors { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-    .color { display: inline-flex; gap: 8px; align-items: center; padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); font-size: 14px; }
-    .swatch { width: 13px; height: 13px; border-radius: 50%; background: var(--swatch); box-shadow: 0 0 12px color-mix(in srgb, var(--swatch) 70%, transparent); }
-    .cta { text-align: center; padding: 55px 24px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(135deg, rgba(34,211,238,.09), rgba(139,92,246,.12)); }
-    footer { padding: 34px 0 50px; color: var(--muted); text-align: center; font-size: 14px; }
-    @media (max-width: 760px) {
-      .links a:not(:last-child) { display: none; }
-      .hero { padding-top: 68px; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .grid { grid-template-columns: 1fr; }
-      .timeline { grid-template-columns: 1fr; }
-      .arrow { transform: rotate(90deg); text-align: center; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PixMob Wave2 Controller for Flipper Zero — 868.415 MHz Sub-GHz Files</title>
+<meta name="description" content="Control a PixMob Wave2 / Waveband 2 RF LED wristband with the Flipper Zero's built-in Sub-GHz radio. Ready-to-use 868.415 MHz files with 20 colors, a wake sequence, quick commands, and a persistent OFF.">
+<meta name="author" content="weeknds">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#050806">
+<link rel="canonical" href="https://weeknds.github.io/pixmob-wave2-flipper-zero/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PixMob Wave2 Flipper Zero Controller">
+<meta property="og:title" content="PixMob Wave2 Controller for Flipper Zero">
+<meta property="og:description" content="Reactivate a PixMob Wave2 / Waveband 2 LED wristband over Sub-GHz at 868.415 MHz — 20 colors, a persistent OFF, and no external radio module.">
+<meta property="og:url" content="https://weeknds.github.io/pixmob-wave2-flipper-zero/">
+<meta property="og:image" content="https://weeknds.github.io/pixmob-wave2-flipper-zero/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PixMob Wave2 — Flipper Zero RF Controller, 868.415 MHz Sub-GHz, group 0">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PixMob Wave2 Controller for Flipper Zero">
+<meta name="twitter:description" content="Colors, wake sequence, quick commands, and a persistent OFF for 868 MHz PixMob Waveband 2 wristbands.">
+<meta name="twitter:image" content="https://weeknds.github.io/pixmob-wave2-flipper-zero/assets/og-cover.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "PixMob Wave2 Flipper Zero Controller",
+  "alternateName": "PixMob Waveband 2 Sub-GHz Controller",
+  "description": "Open-source Flipper Zero Sub-GHz signals and generator for European PixMob Wave2 / Waveband 2 RF LED wristbands at 868.415 MHz.",
+  "codeRepository": "https://github.com/weeknds/pixmob-wave2-flipper-zero",
+  "url": "https://weeknds.github.io/pixmob-wave2-flipper-zero/",
+  "downloadUrl": "https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip",
+  "license": "https://opensource.org/licenses/MIT",
+  "programmingLanguage": "Python",
+  "runtimePlatform": "Flipper Zero",
+  "operatingSystem": "Flipper Zero firmware",
+  "author": { "@type": "Person", "name": "weeknds" },
+  "keywords": "PixMob Wave2, PixMob Waveband 2, Flipper Zero, Sub-GHz, 868.415 MHz, LED wristband controller, PixMob wristband reactivation"
+}
+</script>
+
+<style>
+:root{
+  --bg:#050806;
+  --surface:#0B120D;
+  --surface-2:rgba(255,255,255,.028);
+  --line:rgba(255,255,255,.09);
+  --line-green:rgba(57,255,136,.22);
+  --green:#39FF88;
+  --green-soft:#16A866;
+  --pale:#C8FFE0;
+  --text:#F4F7F5;
+  --muted:#9BAAA0;
+  --radius:14px;
+  --maxw:1120px;
+  --font:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono:ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4{line-height:1.12;letter-spacing:-.02em;margin:0;font-weight:650}
+p{margin:0}
+
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.section{padding:clamp(60px,7vw,96px) 0}
+.section--tight{padding:clamp(48px,6vw,80px) 0}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--green);color:#04150B;padding:12px 18px;border-radius:0 0 10px 0;font-weight:600;z-index:100}
+.skip:focus{left:0}
+
+:where(a,button,summary,[tabindex]):focus-visible{
+  outline:2px solid var(--green);
+  outline-offset:3px;
+  border-radius:8px;
+}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(5,8,6,.78);
+  backdrop-filter:saturate(140%) blur(14px);
+  -webkit-backdrop-filter:saturate(140%) blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color .2s ease, background .2s ease;
+}
+.nav.is-stuck{border-bottom-color:var(--line)}
+.nav__inner{display:flex;align-items:center;gap:14px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:650;letter-spacing:-.01em;white-space:nowrap}
+.brand svg{width:26px;height:26px;flex:none}
+.nav__links{display:flex;align-items:center;gap:4px;margin-left:auto}
+.nav__links a:not(.btn){
+  text-decoration:none;color:var(--muted);font-size:14.5px;font-weight:500;
+  padding:9px 12px;border-radius:9px;transition:color .16s ease,background .16s ease;
+}
+.nav__links a:not(.btn):hover{color:var(--text);background:var(--surface-2)}
+.nav__cta{margin-left:12px}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:44px;padding:12px 20px;border-radius:11px;
+  font-size:15px;font-weight:600;text-decoration:none;letter-spacing:-.005em;
+  border:1px solid transparent;cursor:pointer;
+  transition:transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.btn--primary{
+  background:linear-gradient(180deg,#4CFF95,#16A866);
+  color:#04150B;
+  box-shadow:0 1px 0 rgba(255,255,255,.25) inset, 0 8px 24px -12px rgba(57,255,136,.7);
+}
+.btn--primary:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.3) inset, 0 12px 28px -12px rgba(57,255,136,.85)}
+.btn--ghost{background:var(--surface-2);border-color:var(--line);color:var(--text)}
+.btn--ghost:hover{border-color:var(--line-green);background:rgba(57,255,136,.06)}
+.btn--sm{min-height:40px;padding:9px 16px;font-size:14px;border-radius:10px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;padding:clamp(56px,8vw,104px) 0 clamp(48px,6vw,84px)}
+.hero::before{
+  content:"";position:absolute;inset:-30% -10% auto -10%;height:760px;pointer-events:none;
+  background:radial-gradient(46% 52% at 30% 32%, rgba(22,168,102,.30), transparent 70%),
+             radial-gradient(38% 44% at 78% 18%, rgba(57,255,136,.12), transparent 72%);
+}
+.hero__grid{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,5vw,72px);align-items:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12.5px;font-weight:600;letter-spacing:.05em;
+  color:var(--pale);background:rgba(57,255,136,.07);
+  border:1px solid var(--line-green);border-radius:999px;padding:6px 13px;margin-bottom:22px;
+}
+.eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
+.hero h1{font-size:clamp(2.35rem,5.4vw,4rem);letter-spacing:-.035em;font-weight:700;max-width:16ch}
+.hero__lede{margin-top:20px;font-size:clamp(1.02rem,1.5vw,1.16rem);color:var(--muted);max-width:46ch}
+.hero__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero__note{margin-top:18px;font-size:13.5px;color:var(--muted)}
+.hero__note code{font-family:var(--mono);font-size:12.5px;color:var(--pale)}
+.hero__art{display:flex;justify-content:center}
+.hero__art svg{width:100%;max-width:460px;height:auto}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.stat{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 20px;
+}
+.stat__v{font-size:clamp(1.2rem,2.1vw,1.5rem);font-weight:650;letter-spacing:-.03em}
+.stat__l{margin-top:6px;font-size:13.5px;color:var(--muted)}
+
+/* ---------- headings ---------- */
+.head{max-width:56ch;margin-bottom:clamp(32px,4vw,48px)}
+.head__kicker{font-size:12.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+.head h2{font-size:clamp(1.75rem,3.2vw,2.5rem);letter-spacing:-.03em;font-weight:680}
+.head p{margin-top:16px;color:var(--muted);font-size:1.02rem}
+
+/* ---------- timeline ---------- */
+.timeline{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:clamp(16px,2.5vw,28px);align-items:stretch}
+.step{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:clamp(24px,3vw,32px);position:relative;overflow:hidden;
+}
+.step::after{content:"";position:absolute;inset:0 auto 0 0;width:2px;background:linear-gradient(180deg,var(--green),rgba(22,168,102,0))}
+.step__n{
+  display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;
+  background:rgba(57,255,136,.1);border:1px solid var(--line-green);color:var(--green);
+  font-size:13px;font-weight:650;margin-bottom:16px;font-family:var(--mono);
+}
+.step h3{font-size:1.3rem;font-weight:650}
+.step__meta{margin-top:10px;font-family:var(--mono);font-size:13px;color:var(--pale);letter-spacing:-.01em}
+.step p{margin-top:12px;color:var(--muted);font-size:.95rem}
+.timeline__arrow{display:flex;align-items:center;justify-content:center;color:var(--green-soft)}
+.timeline__arrow svg{width:28px;height:28px}
+.callout{
+  margin-top:26px;display:flex;gap:14px;align-items:flex-start;
+  border:1px solid var(--line-green);background:rgba(57,255,136,.05);
+  border-radius:var(--radius);padding:18px 20px;color:var(--pale);font-size:.97rem;
+}
+.callout svg{width:19px;height:19px;flex:none;margin-top:2px;color:var(--green)}
+
+/* ---------- install ---------- */
+.install{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;list-style:none;margin:0;padding:0}
+.install__item{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(22px,2.6vw,28px);
+}
+.install__n{font-family:var(--mono);font-size:13px;font-weight:650;color:var(--green);margin-bottom:14px}
+.install__item h3{font-size:1.06rem;font-weight:620;line-height:1.4}
+.install__item p{margin-top:10px;color:var(--muted);font-size:.92rem}
+.path{
+  margin-top:16px;display:flex;align-items:center;gap:10px;
+  background:#060A07;border:1px solid var(--line);border-radius:10px;padding:9px 10px 9px 13px;
+}
+.path code{font-family:var(--mono);font-size:12px;color:var(--pale);overflow-x:auto;white-space:nowrap;flex:1;scrollbar-width:none}
+.path code::-webkit-scrollbar{display:none}
+.copy{
+  flex:none;min-height:40px;min-width:52px;padding:5px 10px;border-radius:9px;
+  background:var(--surface-2);border:1px solid var(--line);color:var(--muted);
+  font:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:color .16s,border-color .16s;
+}
+.copy:hover{color:var(--green);border-color:var(--line-green)}
+
+/* ---------- colors ---------- */
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:26px}
+.legend__item{
+  display:flex;align-items:flex-start;gap:11px;flex:1 1 280px;
+  border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:15px 17px;
+}
+.legend__item code{font-family:var(--mono);font-size:12.5px;color:var(--pale)}
+.legend__body{display:block;min-width:0}
+.legend__desc{display:block;font-size:13.5px;color:var(--muted);margin-top:5px}
+.legend__icon{width:18px;height:18px;flex:none;margin-top:2px;color:var(--green)}
+
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.chip{
+  display:flex;align-items:center;gap:11px;
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 14px;
+}
+.chip__dot{width:16px;height:16px;border-radius:50%;flex:none;border:1px solid rgba(255,255,255,.22)}
+.chip__text{display:block;min-width:0}
+.chip__name{display:block;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.chip__rgb{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:2px}
+.chip--off{border-color:var(--line-green);background:rgba(57,255,136,.05)}
+.chip--off .chip__dot{background:#000;border-color:rgba(200,255,224,.5)}
+.colors__note{margin-top:20px;color:var(--muted);font-size:.93rem;max-width:70ch}
+
+/* ---------- tech ---------- */
+.tech{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.tech div{background:var(--surface);padding:22px 24px}
+.tech dt{font-size:12.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.tech dd{margin:8px 0 0;font-family:var(--mono);font-size:1rem;color:var(--text);letter-spacing:-.02em}
+
+/* ---------- cta ---------- */
+.cta{
+  position:relative;overflow:hidden;text-align:center;
+  border:1px solid var(--line-green);border-radius:20px;
+  background:linear-gradient(160deg, rgba(22,168,102,.16), rgba(11,18,13,.5) 55%, rgba(5,8,6,.2));
+  padding:clamp(40px,6vw,68px) clamp(24px,4vw,48px);
+}
+.cta h2{font-size:clamp(1.6rem,3vw,2.25rem);letter-spacing:-.03em}
+.cta p{margin-top:14px;color:var(--muted);max-width:52ch;margin-inline:auto}
+.cta__actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px}
+
+/* ---------- footer ---------- */
+.foot{border-top:1px solid var(--line);padding:36px 0 48px;color:var(--muted);font-size:14px}
+.foot__row{display:flex;flex-wrap:wrap;gap:16px 26px;align-items:center}
+.foot a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:color .16s,border-color .16s}
+.foot a:hover{color:var(--text);border-bottom-color:var(--line-green)}
+.foot__note{margin-top:16px;max-width:70ch;font-size:13.5px;color:#7E8C84}
+
+/* ---------- hero art motion ---------- */
+.wave{animation:pulse 3.6s ease-in-out infinite}
+.wave--2{animation-delay:.45s}
+.wave--3{animation-delay:.9s}
+@keyframes pulse{0%,100%{opacity:.22}45%{opacity:.85}}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .hero__grid{grid-template-columns:1fr;gap:clamp(36px,6vw,52px)}
+  .hero h1,.hero__lede{max-width:100%}
+  .hero__art svg{max-width:360px}
+  .tech{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:860px){
+  .nav__links a:not(.btn){display:none}
+  .nav__links{margin-left:auto}
+  .nav__cta{margin-left:0}
+  .install{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .timeline{grid-template-columns:1fr;gap:14px}
+  .timeline__arrow{transform:rotate(90deg);padding:2px 0}
+}
+@media (max-width:620px){
+  .wrap{padding:0 20px}
+  .tech{grid-template-columns:1fr}
+  .hero__actions .btn,.cta__actions .btn{flex:1 1 100%}
+  .chips{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+}
+@media (pointer:coarse){
+  .copy{min-height:44px}
+}
+@media (prefers-reduced-motion:reduce){
+  html:focus-within{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .wave{opacity:.6}
+}
+</style>
 </head>
 <body>
-  <nav>
-    <div class="wrap">
-      <a class="brand" href="#top">PixMob <span>Wave2</span></a>
-      <div class="links">
-        <a href="#delay">Wake delay</a>
-        <a href="#features">Features</a>
-        <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero">GitHub</a>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#main" aria-label="PixMob Wave2 Flipper Zero controller, back to top">
+      <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <rect x="0" y="0" width="64" height="64" rx="14" fill="#0B120D"/>
+        <g fill="none" stroke="#39FF88" stroke-width="4.5" stroke-linecap="round">
+          <path d="M17.66 26.34 A8 8 0 0 1 17.66 37.66"/>
+          <path d="M22.39 26 A12 12 0 0 1 22.39 38" opacity="0.5"/>
+        </g>
+        <path d="M27.88 25 A14 14 0 1 1 27.88 39" fill="none" stroke="#39FF88" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      <span>PixMob Wave2</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#how">How it works</a>
+      <a href="#colors">Colors</a>
+      <a href="#install">Install</a>
+      <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero">GitHub</a>
+      <a class="btn btn--primary btn--sm nav__cta" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <p class="eyebrow"><i aria-hidden="true"></i>Tested on 868 MHz Waveband 2</p>
+        <h1>Bring your PixMob Wave2 back to life.</h1>
+        <p class="hero__lede">Control colors, wake the wristband, and turn it off using the Flipper Zero&rsquo;s built-in Sub-GHz radio. No external module, no soldering, no custom firmware.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 20h16"/></svg>
+            Download Flipper files
+          </a>
+          <a class="btn btn--ghost" href="https://github.com/weeknds/pixmob-wave2-flipper-zero">View on GitHub</a>
+        </div>
+        <p class="hero__note">Start with <code>02_RED_G0.sub</code> — the first command takes about 18&nbsp;seconds because it carries the wake sequence.</p>
+      </div>
+
+      <div class="hero__art">
+        <svg viewBox="0 0 420 320" role="img" aria-labelledby="artTitle artDesc">
+          <title id="artTitle">A Flipper Zero sending Sub-GHz radio waves to a PixMob wristband</title>
+          <desc id="artDesc">A small handheld controller on the left emits three radio arcs toward a circular wristband on the right, which has three lit green LEDs.</desc>
+          <defs>
+            <linearGradient id="bandGrad" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#16A866"/>
+              <stop offset="0.6" stop-color="#39FF88"/>
+              <stop offset="1" stop-color="#C8FFE0"/>
+            </linearGradient>
+            <radialGradient id="artGlow" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0" stop-color="#39FF88" stop-opacity="0.16"/>
+              <stop offset="1" stop-color="#39FF88" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <ellipse cx="285" cy="175" rx="150" ry="150" fill="url(#artGlow)"/>
+
+          <!-- handheld controller -->
+          <rect x="34" y="125" width="58" height="100" rx="18" fill="#0B120D" stroke="#9BAAA0" stroke-width="2.5" opacity="0.9"/>
+          <rect x="46" y="139" width="34" height="26" rx="7" fill="#39FF88" opacity="0.16"/>
+          <circle cx="63" cy="195" r="10" fill="none" stroke="#9BAAA0" stroke-width="2.5" opacity="0.7"/>
+          <circle cx="63" cy="195" r="2.8" fill="#39FF88"/>
+
+          <!-- radio waves -->
+          <g fill="none" stroke="#39FF88" stroke-width="3.4" stroke-linecap="round">
+            <path class="wave" d="M112.9 160.2 A24 24 0 0 1 112.9 189.8"/>
+            <path class="wave wave--2" d="M127.1 149.1 A42 42 0 0 1 127.1 200.9"/>
+            <path class="wave wave--3" d="M141.3 138.1 A60 60 0 0 1 141.3 211.9"/>
+          </g>
+
+          <!-- wristband -->
+          <path d="M212.06 130 A90 90 0 1 1 212.06 220" fill="none" stroke="url(#bandGrad)" stroke-width="14" stroke-linecap="round"/>
+          <g fill="#39FF88">
+            <circle cx="342" cy="143" r="6.5" opacity="0.45"/>
+            <circle cx="350" cy="175" r="6.5"/>
+            <circle cx="342" cy="207" r="6.5" opacity="0.45"/>
+          </g>
+        </svg>
       </div>
     </div>
-  </nav>
+  </section>
 
-  <main id="top">
-    <header class="hero wrap">
-      <div class="pill"><span class="dot"></span> Tested group-0 signal</div>
-      <h1>Control a PixMob Wave2 with your <em>Flipper Zero</em></h1>
-      <p class="lead">Ready-to-use 868.415 MHz Sub-GHz files for PixMob Wave2 and Waveband 2 RF LED wristbands—complete with wake-up, 20 colors, quick control, and OFF.</p>
-      <div class="actions">
-        <a class="button primary" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip">↓ Download Flipper files</a>
-        <a class="button" href="https://github.com/weeknds/pixmob-wave2-flipper-zero">View source on GitHub</a>
-      </div>
+  <!-- ============ STATS ============ -->
+  <section class="section--tight" aria-label="Key details">
+    <div class="wrap">
       <div class="stats">
-        <div class="stat"><strong>868.415</strong><span>MHz carrier</span></div>
-        <div class="stat"><strong>41</strong><span>ready-to-use files</span></div>
-        <div class="stat"><strong>20</strong><span>color presets</span></div>
-        <div class="stat"><strong>0</strong><span>external modules</span></div>
+        <div class="stat"><p class="stat__v">868.415 MHz</p><p class="stat__l">Sub-GHz carrier, OOK</p></div>
+        <div class="stat"><p class="stat__v">41 files</p><p class="stat__l">Ready to copy to the SD card</p></div>
+        <div class="stat"><p class="stat__v">20 colors + OFF</p><p class="stat__l">Persistent, group 0</p></div>
+        <div class="stat"><p class="stat__v">No add-on radio</p><p class="stat__l">Internal CC1101 only</p></div>
       </div>
-    </header>
+    </div>
+  </section>
 
-    <section id="features">
-      <div class="wrap">
-        <h2>Built for the RF Waveband 2</h2>
-        <p class="section-lead">Waveband 2 uses radio—not infrared. These signals run through the Flipper Zero's built-in CC1101 using the standard Sub-GHz Saved interface.</p>
-        <div class="grid">
-          <article class="card"><div class="icon">◉</div><h3>Confirmed group 0</h3><p>The persistent red reference was physically confirmed. Every color uses the same universal group-0 structure.</p></article>
-          <article class="card"><div class="icon">⌁</div><h3>Corrected protocol</h3><p>Uses the proper on-air 6b/8b orientation and CRC-12 bit order, with automated known-vector tests.</p></article>
-          <article class="card"><div class="icon">⚡</div><h3>Fast after waking</h3><p>Wake once with a self-contained command, then switch colors or turn off in about one second.</p></article>
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="head">
+        <p class="head__kicker">How it works</p>
+        <h2>Wake the wristband, then take control.</h2>
+        <p>A PixMob Waveband sleeps to save its coin cells, and a sleeping receiver ignores an ordinary color packet. Every command in <code>one_press</code> therefore carries a full wake sequence before the action.</p>
+      </div>
+
+      <div class="timeline">
+        <article class="step">
+          <p class="step__n">01</p>
+          <h3>Wake</h3>
+          <p class="step__meta">336 valid black frames · approximately 16.6 seconds</p>
+          <p>The radio keeps sending valid frames until the receiver and microcontroller come out of sleep. This is the long part, and it is deliberate — not Flipper lag.</p>
+        </article>
+
+        <div class="timeline__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 12h15"/><path d="m13 6 6 6-6 6"/></svg>
+        </div>
+
+        <article class="step">
+          <p class="step__n">02</p>
+          <h3>Control</h3>
+          <p class="step__meta">20 color or OFF frames · approximately one second</p>
+          <p>The action frames set a persistent color on group 0. The wristband holds that color until you send another command.</p>
+        </article>
+      </div>
+
+      <p class="callout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5h.01"/></svg>
+        <span>After waking the wristband once, use the quick files for near-instant changes. If they stop responding, the wristband went back to sleep — send any <code>one_press</code> command again.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ INSTALL ============ -->
+  <section class="section" id="install">
+    <div class="wrap">
+      <div class="head">
+        <p class="head__kicker">Install</p>
+        <h2>Three steps to the first color.</h2>
+        <p>Nothing to build and nothing to flash. The release is a folder of Flipper Sub-GHz RAW files.</p>
+      </div>
+
+      <ol class="install" role="list">
+        <li class="install__item">
+          <p class="install__n">Step 1</p>
+          <h3>Download and extract the release</h3>
+          <p>Grab <code>PixMob_Wave2_G0.zip</code> from the latest release and unzip it.</p>
+        </li>
+        <li class="install__item">
+          <p class="install__n">Step 2</p>
+          <h3>Copy the folder to your SD card</h3>
+          <p>Place <code>PixMob_Wave2_G0</code> in the Flipper&rsquo;s Sub-GHz directory using qFlipper, the mobile app, or a card reader.</p>
+          <div class="path">
+            <code id="sdpath">/subghz/PixMob_Wave2_G0</code>
+            <button class="copy" type="button" data-copy="#sdpath">Copy</button>
+          </div>
+        </li>
+        <li class="install__item">
+          <p class="install__n">Step 3</p>
+          <h3>Send your first command</h3>
+          <p>Open <strong>Sub-GHz → Saved → PixMob_Wave2_G0 → one_press</strong> and send <code>02_RED_G0.sub</code>. Hold the Flipper close and let the transmission finish.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ COLORS ============ -->
+  <section class="section" id="colors">
+    <div class="wrap">
+      <div class="head">
+        <p class="head__kicker">Colors</p>
+        <h2>Twenty colors and a real OFF.</h2>
+        <p>Every color ships in two variants. The protocol carries six bits per channel, so RGB values are quantized to multiples of four.</p>
+      </div>
+
+      <div class="legend">
+        <p class="legend__item">
+          <svg class="legend__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span class="legend__body"><code>one_press</code><span class="legend__desc">Includes the wake sequence — use it when the wristband may be asleep. About 18 seconds.</span></span>
+        </p>
+        <p class="legend__item">
+          <svg class="legend__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 3 4 14h7l-1 7 9-11h-7z"/></svg>
+          <span class="legend__body"><code>quick_after_wake</code><span class="legend__desc">Near-instant response while the wristband is already awake. About one second.</span></span>
+        </p>
+      </div>
+
+      <ul class="chips">
+        <li class="chip chip--off">
+          <span class="chip__dot" aria-hidden="true"></span>
+          <span class="chip__text"><span class="chip__name">OFF</span><span class="chip__rgb">0, 0, 0</span></span>
+        </li>
+        <li class="chip"><span class="chip__dot" style="background:#FC0000" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Red</span><span class="chip__rgb">252, 0, 0</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#00FC00" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Green</span><span class="chip__rgb">0, 252, 0</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#0000FC" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Blue</span><span class="chip__rgb">0, 0, 252</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#FCFCFC" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">White</span><span class="chip__rgb">252, 252, 252</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#808080" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Soft white</span><span class="chip__rgb">128, 128, 128</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#FCA050" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Warm white</span><span class="chip__rgb">252, 160, 80</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#A0C8FC" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Cool white</span><span class="chip__rgb">160, 200, 252</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#FCFC00" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Yellow</span><span class="chip__rgb">252, 252, 0</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#00FCFC" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Cyan</span><span class="chip__rgb">0, 252, 252</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#FC00FC" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Magenta</span><span class="chip__rgb">252, 0, 252</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#FC5000" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Orange</span><span class="chip__rgb">252, 80, 0</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#FCA000" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Gold</span><span class="chip__rgb">252, 160, 0</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#8000FC" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Purple</span><span class="chip__rgb">128, 0, 252</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#C800FC" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Violet</span><span class="chip__rgb">200, 0, 252</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#FC2880" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Pink</span><span class="chip__rgb">252, 40, 128</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#80FC00" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Lime</span><span class="chip__rgb">128, 252, 0</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#00A080" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Teal</span><span class="chip__rgb">0, 160, 128</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#00FCA0" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Aqua</span><span class="chip__rgb">0, 252, 160</span></span></li>
+        <li class="chip"><span class="chip__dot" style="background:#0080FC" aria-hidden="true"></span><span class="chip__text"><span class="chip__name">Sky blue</span><span class="chip__rgb">0, 128, 252</span></span></li>
+      </ul>
+
+      <p class="colors__note"><strong>OFF is not a special radio command.</strong> It uses the same persistent group-0 frame as the working colors, with red, green, and blue all set to zero — so the wristband stays dark instead of drifting back to an event pattern.</p>
+    </div>
+  </section>
+
+  <!-- ============ TECHNICAL ============ -->
+  <section class="section" id="technical">
+    <div class="wrap">
+      <div class="head">
+        <p class="head__kicker">Technical summary</p>
+        <h2>Confirmed radio configuration.</h2>
+        <p>Waveband 2 is controlled by RF, not infrared. Open these files through <strong>Sub-GHz → Saved</strong>, never the Infrared application.</p>
+      </div>
+
+      <dl class="tech">
+        <div><dt>Carrier</dt><dd>868.415 MHz</dd></div>
+        <div><dt>Modulation</dt><dd>OOK / ASK</dd></div>
+        <div><dt>Bit time</dt><dd>500 µs</dd></div>
+        <div><dt>Address</dt><dd>Group 0</dd></div>
+        <div><dt>Hardware</dt><dd>Internal CC1101</dd></div>
+        <div><dt>Format</dt><dd>Flipper Sub-GHz RAW</dd></div>
+      </dl>
+
+      <p class="colors__note">Frame layout, the 6b/8b line code, and the CRC-12 parameters are documented in <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/PROTOCOL.md" style="color:var(--green);text-decoration:none;border-bottom:1px solid var(--line-green)">the RF protocol notes</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="section--tight">
+    <div class="wrap">
+      <div class="cta">
+        <h2>Ready to reactivate your Wave2?</h2>
+        <p>Download the Sub-GHz files, copy one folder to the SD card, and send a color.</p>
+        <div class="cta__actions">
+          <a class="btn btn--primary" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip">Download latest release</a>
+          <a class="btn btn--ghost" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/PROTOCOL.md">Read the protocol</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+</main>
 
-    <section id="delay">
-      <div class="wrap">
-        <h2>Why the first command takes 18 seconds</h2>
-        <p class="section-lead">The wristband aggressively sleeps to preserve its coin cells. A one-press signal first sends valid black packets long enough to wake the RF receiver, then sends the selected persistent color.</p>
-        <div class="timeline">
-          <div class="phase"><strong>336 wake frames</strong><span>Approximately 16.6 seconds of valid black group-0 traffic</span></div>
-          <div class="arrow">→</div>
-          <div class="phase"><strong>20 action frames</strong><span>Approximately one second of persistent color or OFF</span></div>
-        </div>
-        <p class="section-lead" style="margin-top:24px">Once awake, use the <code>quick_after_wake</code> files for near-instant control. If they stop responding, the wristband has gone back to sleep.</p>
-      </div>
-    </section>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__row">
+      <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero">Repository on GitHub</a>
+      <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/PROTOCOL.md">RF protocol notes</a>
+      <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/LICENSE">MIT license</a>
+    </div>
+    <p class="foot__note">Use this project with wristbands you own, and only on frequencies permitted where you are. Do not transmit at active events or interfere with professional lighting systems.</p>
+  </div>
+</footer>
 
-    <section>
-      <div class="wrap">
-        <h2>Colors and a real OFF command</h2>
-        <p class="section-lead">OFF uses the same working persistent packet with all RGB channels set to zero. Maximum white and lower-current soft white are both included.</p>
-        <div class="colors" aria-label="Included color presets">
-          <span class="color"><i class="swatch" style="--swatch:#000"></i>OFF</span>
-          <span class="color"><i class="swatch" style="--swatch:#fc0000"></i>Red</span>
-          <span class="color"><i class="swatch" style="--swatch:#00fc00"></i>Green</span>
-          <span class="color"><i class="swatch" style="--swatch:#0000fc"></i>Blue</span>
-          <span class="color"><i class="swatch" style="--swatch:#fcfcfc"></i>White</span>
-          <span class="color"><i class="swatch" style="--swatch:#808080"></i>Soft white</span>
-          <span class="color"><i class="swatch" style="--swatch:#fca050"></i>Warm white</span>
-          <span class="color"><i class="swatch" style="--swatch:#a0c8fc"></i>Cool white</span>
-          <span class="color"><i class="swatch" style="--swatch:#fcfc00"></i>Yellow</span>
-          <span class="color"><i class="swatch" style="--swatch:#00fcfc"></i>Cyan</span>
-          <span class="color"><i class="swatch" style="--swatch:#fc00fc"></i>Magenta</span>
-          <span class="color"><i class="swatch" style="--swatch:#fc5000"></i>Orange</span>
-          <span class="color"><i class="swatch" style="--swatch:#fca000"></i>Gold</span>
-          <span class="color"><i class="swatch" style="--swatch:#8000fc"></i>Purple</span>
-          <span class="color"><i class="swatch" style="--swatch:#c800fc"></i>Violet</span>
-          <span class="color"><i class="swatch" style="--swatch:#fc2880"></i>Pink</span>
-          <span class="color"><i class="swatch" style="--swatch:#80fc00"></i>Lime</span>
-          <span class="color"><i class="swatch" style="--swatch:#00a080"></i>Teal</span>
-          <span class="color"><i class="swatch" style="--swatch:#00fca0"></i>Aqua</span>
-          <span class="color"><i class="swatch" style="--swatch:#0080fc"></i>Sky blue</span>
-        </div>
-      </div>
-    </section>
+<script>
+(function () {
+  var nav = document.getElementById('nav');
+  var onScroll = function () {
+    nav.classList.toggle('is-stuck', window.scrollY > 8);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-    <section>
-      <div class="wrap cta">
-        <h2>Bring your Wave2 wristband back to life</h2>
-        <p class="section-lead" style="margin-inline:auto">Extract the release, copy the folder to <code>/subghz/</code>, and start with <code>02_RED_G0.sub</code>.</p>
-        <div class="actions">
-          <a class="button primary" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip">Download PixMob_Wave2_G0.zip</a>
-          <a class="button" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/PROTOCOL.md">Read the RF protocol</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="wrap">Open source under the MIT License · Use only with devices you own and frequencies permitted in your region.</footer>
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.querySelector(btn.dataset.copy);
+      if (!target || !navigator.clipboard) return;
+      navigator.clipboard.writeText(target.textContent.trim()).then(function () {
+        var original = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = original; }, 1600);
+      }).catch(function () {});
+    });
+  });
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-labelledby="ogTitle ogDesc">
+  <title id="ogTitle">PixMob Wave2 — Flipper Zero RF Controller</title>
+  <desc id="ogDesc">Social preview card: an abstract wristband ring receiving radio waves from a handheld controller, with the text "PixMob Wave2", "Flipper Zero RF Controller", and "868.415 MHz · Sub-GHz · Group 0".</desc>
+
+  <defs>
+    <linearGradient id="ogRing" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#16A866"/>
+      <stop offset="0.55" stop-color="#39FF88"/>
+      <stop offset="1" stop-color="#C8FFE0"/>
+    </linearGradient>
+    <linearGradient id="ogRule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#39FF88" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#39FF88" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="ogGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#16A866" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#16A866" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="630" fill="#050806"/>
+  <ellipse cx="960" cy="315" rx="470" ry="400" fill="url(#ogGlow)"/>
+
+  <g font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+    <text x="96" y="268" font-size="78" font-weight="700" letter-spacing="-2.4" fill="#F4F7F5">PixMob Wave2</text>
+    <text x="99" y="322" font-size="34" font-weight="500" letter-spacing="0.2" fill="#9BAAA0">Flipper Zero RF Controller</text>
+    <rect x="99" y="352" width="340" height="2" fill="url(#ogRule)"/>
+    <text x="99" y="400" font-size="24" font-weight="600" letter-spacing="0.6" fill="#39FF88">868.415 MHz · Sub-GHz · Group 0</text>
+    <text x="99" y="468" font-size="22" font-weight="500" fill="#9BAAA0">20 colors · persistent OFF · no external radio module</text>
+  </g>
+
+  <g transform="translate(1020,315) scale(1.5)">
+    <!-- handheld controller -->
+    <rect x="-134" y="-22" width="26" height="44" rx="9" fill="none" stroke="#9BAAA0" stroke-width="4" opacity="0.75"/>
+    <circle cx="-121" cy="-10" r="3" fill="#39FF88"/>
+
+    <!-- radio waves -->
+    <g fill="none" stroke="#39FF88" stroke-width="4" stroke-linecap="round">
+      <path d="M-94.1 -10.7 A16 16 0 0 1 -94.1 10.7" opacity="0.95"/>
+      <path d="M-86.7 -17.4 A26 26 0 0 1 -86.7 17.4" opacity="0.6"/>
+      <path d="M-79.2 -24.1 A36 36 0 0 1 -79.2 24.1" opacity="0.32"/>
+    </g>
+
+    <!-- wristband ring -->
+    <path d="M-68.8 -27 A54 54 0 1 1 -68.8 27" fill="none" stroke="url(#ogRing)" stroke-width="10" stroke-linecap="round"/>
+
+    <!-- LEDs -->
+    <g fill="#39FF88">
+      <circle cx="5.7" cy="-16" r="4.5" opacity="0.5"/>
+      <circle cx="10" cy="0" r="4.5"/>
+      <circle cx="5.7" cy="16" r="4.5" opacity="0.5"/>
+    </g>
+  </g>
+</svg>

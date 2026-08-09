@@ -1,28 +1,40 @@
 <div align="center">
-  <img src="assets/banner.svg" alt="PixMob Wave2 Flipper Zero Controller" width="100%">
-
-  # PixMob Wave2 / Waveband 2 Controller for Flipper Zero
-
-  **Reactivate and control an RF PixMob Wave2 LED wristband with the built-in Flipper Zero Sub-GHz radio.**
-
-  [![Validate signals](https://github.com/weeknds/pixmob-wave2-flipper-zero/actions/workflows/validate.yml/badge.svg)](https://github.com/weeknds/pixmob-wave2-flipper-zero/actions/workflows/validate.yml)
-  [![GitHub release](https://img.shields.io/github/v/release/weeknds/pixmob-wave2-flipper-zero?display_name=tag)](https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-7c3aed.svg)](LICENSE)
-  ![Frequency: 868.415 MHz](https://img.shields.io/badge/RF-868.415%20MHz-06b6d4)
-
-  [Project page](https://weeknds.github.io/pixmob-wave2-flipper-zero/) ·
-  [Download latest release](https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip) ·
-  [RF protocol](PROTOCOL.md)
+  <img src="assets/banner.svg" alt="PixMob Wave2 — Flipper Zero RF Controller · 868.415 MHz · Sub-GHz · Group 0" width="820">
 </div>
 
-This repository contains ready-to-use Flipper Zero `.sub` files for European
-**PixMob Wave2 / Waveband 2 RF LED wristbands**. It provides persistent colors,
-an OFF command, the required wake-up sequence, and an open-source Python
-generator that validates every frame and Flipper RAW timing.
+<div align="center">
+
+# PixMob Wave2 for Flipper Zero
+
+Ready-to-use Sub-GHz files that wake, color, and switch off a **PixMob Wave2 /
+Waveband 2** RF LED wristband using the Flipper Zero's built-in radio.
+
+[![Release](https://img.shields.io/github/v/release/weeknds/pixmob-wave2-flipper-zero?display_name=tag&label=release&color=16a866)](https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest)
+[![Tests](https://github.com/weeknds/pixmob-wave2-flipper-zero/actions/workflows/validate.yml/badge.svg)](https://github.com/weeknds/pixmob-wave2-flipper-zero/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-16a866)](LICENSE)
+![RF: 868.415 MHz](https://img.shields.io/badge/RF-868.415%20MHz-39ff88)
+
+**[Download the files](https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip)**
+ · [Project website](https://weeknds.github.io/pixmob-wave2-flipper-zero/)
+ · [RF protocol](PROTOCOL.md)
+
+</div>
+
+**What is this?** 41 Flipper Zero `.sub` files plus a dependency-free Python
+generator, for European PixMob Wave2 / Waveband 2 wristbands. You get 20
+persistent colors, a persistent OFF, the required wake sequence, and quick
+commands for a wristband that is already awake.
+
+**Where do I start?** Copy `PixMob_Wave2_G0` to `/subghz/` on the SD card, open
+**Sub-GHz → Saved → PixMob_Wave2_G0 → one_press**, and send `02_RED_G0.sub`.
+The first command takes about 18 seconds because it carries a 16.6-second wake
+sequence — that is deliberate, not Flipper lag.
 
 > [!IMPORTANT]
-> Waveband 2 is controlled by **RF**, not infrared. Open these files through
-> **Sub-GHz → Saved**, not the Infrared application.
+> Waveband 2 is controlled by **RF, not infrared**. Open these files through
+> **Sub-GHz → Saved**, never the Infrared application. This release targets the
+> European 868.415 MHz hardware and transmits on group 0 with the internal
+> CC1101 — no external radio module is required.
 
 ## Confirmed configuration
 
@@ -123,6 +135,7 @@ as the working colors, with red, green, and blue all set to zero.
 │   └── quick_after_wake/   # color/OFF without the long wake sequence
 ├── generator/generate.py   # dependency-free signal generator
 ├── tests/                  # CRC, codec, timing, and file-format tests
+├── docs/                   # GitHub Pages site
 ├── PROTOCOL.md             # RF frame and checksum documentation
 └── assets/banner.svg
 ```

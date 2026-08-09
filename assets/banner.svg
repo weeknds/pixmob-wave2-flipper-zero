@@ -1,62 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-labelledby="title description">
-  <title id="title">PixMob Wave2 Flipper Zero Controller</title>
-  <desc id="description">Colorful radio waves connecting a Flipper Zero to an LED wristband</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300" role="img" aria-labelledby="bannerTitle bannerDesc">
+  <title id="bannerTitle">PixMob Wave2 — Flipper Zero RF Controller</title>
+  <desc id="bannerDesc">Wordmark for the PixMob Wave2 project: an abstract wristband ring receiving radio waves from a small handheld controller, beside the text "PixMob Wave2", the subtitle "Flipper Zero RF Controller", and the technical line "868.415 MHz, Sub-GHz, Group 0".</desc>
+
   <defs>
-    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#090b1a"/>
-      <stop offset="0.55" stop-color="#17123a"/>
-      <stop offset="1" stop-color="#062d3c"/>
+    <linearGradient id="ring" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#16A866"/>
+      <stop offset="0.55" stop-color="#39FF88"/>
+      <stop offset="1" stop-color="#C8FFE0"/>
     </linearGradient>
-    <linearGradient id="spectrum" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#ef4444"/>
-      <stop offset="0.2" stop-color="#f59e0b"/>
-      <stop offset="0.4" stop-color="#84cc16"/>
-      <stop offset="0.6" stop-color="#06b6d4"/>
-      <stop offset="0.8" stop-color="#6366f1"/>
-      <stop offset="1" stop-color="#d946ef"/>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#39FF88" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#39FF88" stop-opacity="0"/>
     </linearGradient>
-    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="10" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity=".035"/>
-    </pattern>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#16A866" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#16A866" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect width="1280" height="420" rx="28" fill="url(#background)"/>
-  <rect width="1280" height="420" rx="28" fill="url(#grid)"/>
-  <circle cx="1100" cy="65" r="170" fill="#7c3aed" opacity=".09"/>
-  <circle cx="110" cy="395" r="230" fill="#06b6d4" opacity=".08"/>
 
-  <g transform="translate(74 86)">
-    <rect x="0" y="0" width="142" height="248" rx="34" fill="#0f172a" stroke="#94a3b8" stroke-width="3"/>
-    <rect x="18" y="28" width="106" height="78" rx="10" fill="#d9f99d"/>
-    <path d="M43 69h56M71 42v54" stroke="#365314" stroke-width="7" stroke-linecap="round"/>
-    <circle cx="71" cy="151" r="31" fill="#f97316"/>
-    <circle cx="71" cy="151" r="14" fill="#fed7aa"/>
-    <circle cx="42" cy="207" r="9" fill="#475569"/>
-    <circle cx="71" cy="207" r="9" fill="#475569"/>
-    <circle cx="100" cy="207" r="9" fill="#475569"/>
+  <rect x="0" y="0" width="900" height="300" fill="#080F0B"/>
+  <ellipse cx="150" cy="150" rx="300" ry="215" fill="url(#glow)"/>
+
+  <g transform="translate(0,-20)">
+    <!-- handheld controller -->
+    <rect x="40" y="148" width="26" height="44" rx="9" fill="none" stroke="#9BAAA0" stroke-width="4" opacity="0.75"/>
+    <circle cx="53" cy="160" r="3" fill="#39FF88"/>
+
+    <!-- radio waves -->
+    <g fill="none" stroke="#39FF88" stroke-width="4" stroke-linecap="round">
+      <path d="M79.9 159.3 A16 16 0 0 1 79.9 180.7" opacity="0.95"/>
+      <path d="M87.3 152.6 A26 26 0 0 1 87.3 187.4" opacity="0.6"/>
+      <path d="M94.8 145.9 A36 36 0 0 1 94.8 194.1" opacity="0.32"/>
+    </g>
+
+    <!-- wristband ring -->
+    <path d="M105.2 143 A54 54 0 1 1 105.2 197" fill="none" stroke="url(#ring)" stroke-width="10" stroke-linecap="round"/>
+
+    <!-- LEDs on the band -->
+    <g fill="#39FF88">
+      <circle cx="179.7" cy="154" r="4.5" opacity="0.5"/>
+      <circle cx="184" cy="170" r="4.5"/>
+      <circle cx="179.7" cy="186" r="4.5" opacity="0.5"/>
+    </g>
+
+    <!-- divider -->
+    <line x1="232" y1="114" x2="232" y2="226" stroke="#F4F7F5" stroke-opacity="0.12" stroke-width="2"/>
+
+    <g font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+      <text x="264" y="158" font-size="70" font-weight="700" letter-spacing="-2" fill="#F4F7F5">PixMob Wave2</text>
+      <text x="266" y="199" font-size="26" font-weight="500" letter-spacing="0.2" fill="#9BAAA0">Flipper Zero RF Controller</text>
+      <text x="266" y="246" font-size="19" font-weight="600" letter-spacing="0.6" fill="#39FF88">868.415 MHz · Sub-GHz · Group 0</text>
+    </g>
+
+    <rect x="264" y="215" width="300" height="2" fill="url(#rule)"/>
   </g>
-
-  <g fill="none" stroke="url(#spectrum)" stroke-linecap="round" filter="url(#glow)">
-    <path d="M260 210c65-76 131-76 196 0" stroke-width="7" opacity=".95"/>
-    <path d="M289 210c46-48 92-48 138 0" stroke-width="6" opacity=".8"/>
-    <path d="M323 210c24-23 48-23 72 0" stroke-width="5" opacity=".65"/>
-  </g>
-  <circle cx="358" cy="210" r="8" fill="#22d3ee" filter="url(#glow)"/>
-
-  <g transform="translate(1010 110)">
-    <path d="M0 48c0-30 24-54 54-54h76c30 0 54 24 54 54v104c0 30-24 54-54 54H54c-30 0-54-24-54-54z" fill="none" stroke="#cbd5e1" stroke-width="15"/>
-    <rect x="43" y="42" width="98" height="116" rx="28" fill="#111827" stroke="#64748b" stroke-width="4"/>
-    <circle cx="72" cy="78" r="15" fill="#ef4444" filter="url(#glow)"/>
-    <circle cx="112" cy="78" r="15" fill="#22c55e" filter="url(#glow)"/>
-    <circle cx="92" cy="120" r="15" fill="#3b82f6" filter="url(#glow)"/>
-  </g>
-
-  <text x="490" y="153" fill="#f8fafc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="57" font-weight="750" letter-spacing="-1.5">PixMob Wave2</text>
-  <text x="490" y="216" fill="url(#spectrum)" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="41" font-weight="700">Flipper Zero Controller</text>
-  <text x="492" y="264" fill="#cbd5e1" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="22">868.415 MHz · OOK · Group 0 · Ready-to-use .sub files</text>
-  <rect x="490" y="294" width="409" height="42" rx="21" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
-  <text x="515" y="322" fill="#e2e8f0" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="600">WAKE  →  COLOR  →  QUICK CONTROL  →  OFF</text>
 </svg>
