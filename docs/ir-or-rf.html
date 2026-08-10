@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is Your PixMob Wristband Infrared or RF? — Flipper Zero Compatibility</title>
+<meta name="description" content="PixMob IR codes do nothing on a Waveband 2? Your wristband is radio, not infrared. How to tell which PixMob you have, and which Flipper Zero project actually controls it.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#050806">
+<link rel="canonical" href="https://weeknds.github.io/pixmob-wave2-flipper-zero/ir-or-rf.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PixMob Wave2 Flipper Zero Controller">
+<meta property="og:title" content="Is your PixMob wristband infrared or RF?">
+<meta property="og:description" content="Why PixMob IR codes do nothing on a Waveband 2, how to identify which wristband you have, and which Flipper Zero project controls each one.">
+<meta property="og:url" content="https://weeknds.github.io/pixmob-wave2-flipper-zero/ir-or-rf.html">
+<meta property="og:image" content="https://weeknds.github.io/pixmob-wave2-flipper-zero/assets/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Is your PixMob wristband infrared or RF?">
+<meta name="twitter:description" content="Why PixMob IR codes do nothing on a Waveband 2, and which Flipper Zero project controls each wristband.">
+<meta name="twitter:image" content="https://weeknds.github.io/pixmob-wave2-flipper-zero/assets/og-cover.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why do PixMob IR codes do nothing on my wristband?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because that wristband is almost certainly a radio model rather than an infrared one. PixMob makes both. The widely shared Flipper Zero PixMob files are infrared codes sent from the Flipper's IR emitter, and an RF Waveband has no infrared receiver to hear them. A radio wristband needs a Sub-GHz transmission instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I tell whether my PixMob wristband is infrared or RF?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Look for a dark translucent window on the wristband housing. Infrared PixMob models have one, because the IR receiver needs to see light through it. RF models such as the Waveband and Waveband 2 do not, since a radio signal passes straight through plastic. If the band was handed out at a European event and has no IR window, it is very likely the 868 MHz RF variant."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which frequency does the European PixMob Waveband 2 use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "868.415 MHz, using OOK/ASK modulation with a 500 microsecond bit time. That falls inside the Flipper Zero's Sub-GHz range, so the internal CC1101 radio can transmit it without any external module."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an external radio module for my Flipper Zero?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. 868.415 MHz is within the range of the Flipper Zero's built-in CC1101, so no CC1101 add-on board, antenna mod, or custom firmware is required. The files open through Sub-GHz then Saved."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the first command take about 18 seconds?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A PixMob Waveband sleeps to save its coin cells, and a sleeping receiver ignores an ordinary colour packet. Each one_press file therefore sends 336 valid black wake frames first, which takes roughly 16.6 seconds, before the colour frames. Once the wristband is awake, the quick files respond in about a second."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+:root{
+  --bg:#050806;--surface:#0B120D;--surface-2:rgba(255,255,255,.028);
+  --line:rgba(255,255,255,.09);--line-green:rgba(57,255,136,.22);
+  --green:#39FF88;--green-soft:#16A866;--pale:#C8FFE0;
+  --text:#F4F7F5;--muted:#9BAAA0;--radius:14px;--maxw:820px;
+  --font:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono:ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:16.5px;line-height:1.68;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{max-width:100%}
+a{color:var(--green)}
+h1,h2,h3{line-height:1.15;letter-spacing:-.025em;margin:0;font-weight:660}
+p{margin:0}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--green);color:#04150B;padding:12px 18px;border-radius:0 0 10px 0;font-weight:600;z-index:100}
+.skip:focus{left:0}
+:where(a,button):focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:8px}
+
+.nav{position:sticky;top:0;z-index:50;background:rgba(5,8,6,.8);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line)}
+.nav__inner{display:flex;align-items:center;gap:14px;height:64px;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-weight:650;letter-spacing:-.01em;white-space:nowrap}
+.brand svg{width:26px;height:26px;flex:none}
+.nav__cta{margin-left:auto}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:12px 20px;border-radius:11px;font-size:15px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .16s ease,border-color .16s ease,background .16s ease}
+.btn--primary{background:linear-gradient(180deg,#4CFF95,#16A866);color:#04150B;box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 8px 24px -12px rgba(57,255,136,.7)}
+.btn--primary:hover{transform:translateY(-1px)}
+.btn--ghost{background:var(--surface-2);border-color:var(--line);color:var(--text)}
+.btn--ghost:hover{border-color:var(--line-green);background:rgba(57,255,136,.06)}
+.btn--sm{min-height:40px;padding:9px 16px;font-size:14px;border-radius:10px}
+
+.hero{padding:clamp(48px,7vw,80px) 0 clamp(24px,3vw,32px);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-40% -20% auto -20%;height:600px;pointer-events:none;background:radial-gradient(44% 50% at 32% 30%,rgba(22,168,102,.24),transparent 70%)}
+.crumb{position:relative;font-size:13.5px;color:var(--muted);margin-bottom:20px}
+.crumb a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line)}
+.crumb a:hover{color:var(--text)}
+h1{position:relative;font-size:clamp(2rem,4.6vw,2.9rem);letter-spacing:-.035em;font-weight:700}
+.lede{position:relative;margin-top:20px;font-size:1.1rem;color:var(--muted)}
+
+.answer{display:flex;gap:15px;align-items:flex-start;border:1px solid var(--line-green);background:rgba(57,255,136,.06);border-radius:var(--radius);padding:22px 24px;margin:32px 0}
+.answer svg{width:20px;height:20px;flex:none;margin-top:3px;color:var(--green)}
+.answer strong{color:var(--pale)}
+
+.section{padding:clamp(36px,5vw,52px) 0 0}
+.section h2{font-size:clamp(1.4rem,2.6vw,1.85rem);margin-bottom:18px}
+.section h3{font-size:1.12rem;margin:28px 0 10px}
+.section p{margin-bottom:16px;color:#DCE4DE}
+.section p.muted{color:var(--muted)}
+
+.tbl{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:var(--radius);margin:24px 0;font-size:15px}
+.tbl caption{caption-side:top;text-align:left;color:var(--muted);font-size:13.5px;padding:0 0 10px}
+.tbl th,.tbl td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl thead th{background:var(--surface);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tbl thead th:first-child{border-top-left-radius:var(--radius)}
+.tbl thead th:last-child{border-top-right-radius:var(--radius)}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl td:first-child{font-weight:600}
+.tbl code{font-family:var(--mono);font-size:13px;color:var(--pale)}
+
+.faq{margin-top:12px}
+.faq details{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:10px;overflow:hidden}
+.faq summary{cursor:pointer;padding:16px 20px;font-weight:600;font-size:1rem;list-style:none;min-height:44px;display:flex;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"+";color:var(--green);font-family:var(--mono);font-size:17px;flex:none}
+.faq details[open] summary::before{content:"–"}
+.faq details[open] summary{border-bottom:1px solid var(--line)}
+.faq .faq__body{padding:16px 20px 20px 44px;color:#DCE4DE;font-size:.97rem}
+.faq .faq__body p{margin-bottom:12px}
+.faq .faq__body p:last-child{margin-bottom:0}
+
+.cta{margin:48px 0 0;text-align:center;border:1px solid var(--line-green);border-radius:20px;background:linear-gradient(160deg,rgba(22,168,102,.16),rgba(11,18,13,.5) 55%,rgba(5,8,6,.2));padding:clamp(34px,5vw,52px) clamp(22px,4vw,40px)}
+.cta h2{font-size:clamp(1.4rem,2.6vw,1.9rem);margin-bottom:12px}
+.cta p{color:var(--muted);max-width:46ch;margin:0 auto}
+.cta__actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px}
+
+.foot{border-top:1px solid var(--line);margin-top:56px;padding:32px 0 44px;color:var(--muted);font-size:14px}
+.foot__row{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center}
+.foot a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent}
+.foot a:hover{color:var(--text);border-bottom-color:var(--line-green)}
+.foot__note{margin-top:14px;font-size:13.5px;color:#7E8C84;max-width:70ch}
+
+@media (max-width:620px){
+  .wrap,.nav__inner{padding:0 20px}
+  .cta__actions .btn{flex:1 1 100%}
+  .tbl{border:0;font-size:15px}
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .tbl tr{display:block;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);margin-bottom:12px;padding:6px 0}
+  .tbl td{display:block;border-bottom:0;padding:10px 18px}
+  .tbl td::before{content:attr(data-label);display:block;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px}
+  .tbl td:first-child{font-weight:600}
+}
+@media (prefers-reduced-motion:reduce){
+  html:focus-within{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="nav">
+  <div class="nav__inner">
+    <a class="brand" href="./" aria-label="PixMob Wave2 Flipper Zero controller, home">
+      <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <rect x="0" y="0" width="64" height="64" rx="14" fill="#0B120D"/>
+        <g fill="none" stroke="#39FF88" stroke-width="4.5" stroke-linecap="round">
+          <path d="M17.66 26.34 A8 8 0 0 1 17.66 37.66"/>
+          <path d="M22.39 26 A12 12 0 0 1 22.39 38" opacity="0.5"/>
+        </g>
+        <path d="M27.88 25 A14 14 0 1 1 27.88 39" fill="none" stroke="#39FF88" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      <span>PixMob Wave2</span>
+    </a>
+    <a class="btn btn--primary btn--sm nav__cta" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip">Download</a>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <section class="hero">
+      <p class="crumb"><a href="./">PixMob Wave2 for Flipper Zero</a> &rsaquo; Compatibility</p>
+      <h1>Is your PixMob wristband infrared or RF?</h1>
+      <p class="lede">If you sent the well-known PixMob IR codes from a Flipper Zero and the wristband did absolutely nothing, the problem usually isn&rsquo;t your Flipper, your aim, or the batteries. You are talking to it on the wrong medium.</p>
+    </section>
+
+    <p class="answer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5h.01"/></svg>
+      <span><strong>Short answer:</strong> PixMob makes both infrared and radio wristbands. The popular Flipper Zero PixMob files are <em>infrared</em>. A Waveband or Waveband 2 is <em>radio</em>, so it has no infrared receiver and will ignore IR codes no matter how many times you send them. European Waveband 2 bands are controlled at <strong>868.415 MHz over Sub-GHz</strong>.</span>
+    </p>
+
+    <section class="section">
+      <h2>How to tell which one you have</h2>
+      <p>You do not need to open the wristband. The quickest tell is whether the housing has a dark translucent window: an infrared receiver has to see through one, and a radio receiver does not, because radio passes straight through the plastic.</p>
+
+      <table class="tbl">
+        <caption>Identifying a PixMob wristband and choosing the right project</caption>
+        <thead>
+          <tr><th scope="col">Wristband</th><th scope="col">Control medium</th><th scope="col">What to use</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Wristband">Classic PixMob<br><span class="muted">dark IR window on the housing</span></td>
+            <td data-label="Control medium">Infrared</td>
+            <td data-label="What to use">Use an infrared project such as <a href="https://github.com/danielweidman/flipper-pixmob-ir-codes">danielweidman/flipper-pixmob-ir-codes</a>, through the Flipper&rsquo;s <strong>Infrared</strong> app.</td>
+          </tr>
+          <tr>
+            <td data-label="Wristband">PixMob Waveband 2 (Europe)<br><span class="muted">no IR window</span></td>
+            <td data-label="Control medium">Radio, <code>868.415 MHz</code></td>
+            <td data-label="What to use"><strong>This project.</strong> Ready-to-use Sub-GHz files, opened through <strong>Sub-GHz &rarr; Saved</strong>.</td>
+          </tr>
+          <tr>
+            <td data-label="Wristband">Other regional RF Wavebands</td>
+            <td data-label="Control medium">Radio, other frequencies</td>
+            <td data-label="What to use">Not covered here. The frames in <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/PROTOCOL.md">PROTOCOL.md</a> and the generator may still be a useful starting point.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="muted">If a band was handed out at a European event and has no infrared window, the 868.415 MHz RF variant is by far the most likely answer.</p>
+    </section>
+
+    <section class="section">
+      <h2>Why infrared codes can never work on a radio wristband</h2>
+      <p>Infrared control is line-of-sight light. The Flipper Zero pulses its IR LED, a receiver in the wristband sees the flashes, and the wristband decodes them. There is no radio involved anywhere in that chain.</p>
+      <p>A Waveband 2 instead carries a Sub-GHz receiver. It listens for on-off keyed radio at 868.415 MHz and never looks for light at all. Sending IR at it is like shouting at a device that only reads text — the message is fine, the channel is wrong. This is also why aiming more carefully, replacing the coin cells, or trying every IR file in a folder never helps.</p>
+
+      <h3>The second reason nothing appears to happen</h3>
+      <p>Even on the correct radio channel, a Waveband 2 sleeps to protect its coin cells, and a sleeping receiver ignores a plain colour packet. Every <code>one_press</code> file in this project therefore transmits 336 valid black wake frames first — about 16.6 seconds — before the colour frames. If you stop the transmission early because it seems stuck, the wristband never wakes. Let it run to the end.</p>
+    </section>
+
+    <section class="section">
+      <h2>What this project gives you</h2>
+      <p>41 ready-to-use Flipper Zero <code>.sub</code> files for the European PixMob Wave2 / Waveband 2: 20 persistent colours plus a persistent OFF, each in a self-waking version and a quick version for a wristband that is already awake. Everything runs on the Flipper&rsquo;s internal CC1101 — no external radio module, no antenna modification, no custom firmware.</p>
+      <p class="muted">The Python generator that produces the files is included and dependency-free, and the frame format, 6b/8b line code and CRC are documented in <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/PROTOCOL.md">PROTOCOL.md</a> if you want to build your own commands.</p>
+    </section>
+
+    <section class="section">
+      <h2>Common questions</h2>
+      <div class="faq">
+        <details>
+          <summary>Why do PixMob IR codes do nothing on my wristband?</summary>
+          <div class="faq__body"><p>Because it is almost certainly a radio model. The widely shared Flipper Zero PixMob files are infrared codes sent from the Flipper&rsquo;s IR emitter, and an RF Waveband has no infrared receiver to hear them. It needs a Sub-GHz transmission instead.</p></div>
+        </details>
+        <details>
+          <summary>How can I tell whether my PixMob is infrared or RF?</summary>
+          <div class="faq__body"><p>Look for a dark translucent window on the housing. Infrared models have one so the receiver can see through it; RF models such as the Waveband and Waveband 2 do not. A European event band with no IR window is very likely the 868 MHz RF variant.</p></div>
+        </details>
+        <details>
+          <summary>Which frequency does the European Waveband 2 use?</summary>
+          <div class="faq__body"><p>868.415 MHz, OOK/ASK, with a 500 µs bit time on group 0. That sits inside the Flipper Zero&rsquo;s Sub-GHz range.</p></div>
+        </details>
+        <details>
+          <summary>Do I need an external CC1101 module?</summary>
+          <div class="faq__body"><p>No. 868.415 MHz is within range of the Flipper&rsquo;s built-in CC1101, so no add-on board, antenna mod, or custom firmware is required.</p></div>
+        </details>
+        <details>
+          <summary>Why does the first command take about 18 seconds?</summary>
+          <div class="faq__body"><p>It carries the wake sequence: 336 valid black frames, roughly 16.6 seconds, followed by the colour frames. Once the wristband is awake, the <code>quick_after_wake</code> files respond in about a second.</p></div>
+        </details>
+        <details>
+          <summary>My wristband responded once and now ignores the quick files.</summary>
+          <div class="faq__body"><p>It went back to sleep. Send any <code>one_press</code> command again to wake it, then continue with the quick files.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <div class="cta">
+      <h2>Got the RF one? You&rsquo;re in the right place.</h2>
+      <p>Copy one folder to the SD card and send a colour — no module, no firmware, no soldering.</p>
+      <div class="cta__actions">
+        <a class="btn btn--primary" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip">Download the Sub-GHz files</a>
+        <a class="btn btn--ghost" href="./">How it works</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__row">
+      <a href="./">Project home</a>
+      <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero">Repository on GitHub</a>
+      <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/PROTOCOL.md">RF protocol notes</a>
+      <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/LICENSE">MIT license</a>
+    </div>
+    <p class="foot__note">Use this project with wristbands you own, and only on frequencies permitted where you are. Do not transmit at active events or interfere with professional lighting systems.</p>
+  </div>
+</footer>
+</body>
+</html>

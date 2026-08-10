@@ -152,6 +152,10 @@ p{margin:0}
 .hero__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .hero__note{margin-top:18px;font-size:13.5px;color:var(--muted)}
 .hero__note code{font-family:var(--mono);font-size:12.5px;color:var(--pale)}
+.hero__note-link{color:var(--pale);text-decoration:none;border-bottom:1px solid var(--line-green);white-space:nowrap}
+.hero__note-link:hover{color:var(--green)}
+.inline-link{color:var(--green);text-decoration:none;border-bottom:1px solid var(--line-green)}
+.inline-link:hover{border-bottom-color:var(--green)}
 .hero__art{display:flex;justify-content:center}
 .hero__art svg{width:100%;max-width:460px;height:auto}
 
@@ -321,6 +325,7 @@ p{margin:0}
       <a href="#how">How it works</a>
       <a href="#colors">Colors</a>
       <a href="#install">Install</a>
+      <a href="ir-or-rf.html">IR or RF?</a>
       <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero">GitHub</a>
       <a class="btn btn--primary btn--sm nav__cta" href="https://github.com/weeknds/pixmob-wave2-flipper-zero/releases/latest/download/PixMob_Wave2_G0.zip">Download</a>
     </nav>
@@ -343,7 +348,7 @@ p{margin:0}
           </a>
           <a class="btn btn--ghost" href="https://github.com/weeknds/pixmob-wave2-flipper-zero">View on GitHub</a>
         </div>
-        <p class="hero__note">Start with <code>02_RED_G0.sub</code> — the first command takes about 18&nbsp;seconds because it carries the wake sequence.</p>
+        <p class="hero__note">Start with <code>02_RED_G0.sub</code> — the first command takes about 18&nbsp;seconds because it carries the wake sequence. <a href="ir-or-rf.html" class="hero__note-link">IR codes did nothing?</a></p>
       </div>
 
       <div class="hero__art">
@@ -526,7 +531,7 @@ p{margin:0}
       <div class="head">
         <p class="head__kicker">Technical summary</p>
         <h2>Confirmed radio configuration.</h2>
-        <p>Waveband 2 is controlled by RF, not infrared. Open these files through <strong>Sub-GHz → Saved</strong>, never the Infrared application.</p>
+        <p>Waveband 2 is controlled by RF, not infrared. Open these files through <strong>Sub-GHz → Saved</strong>, never the Infrared application. Not sure which band you have? Read <a href="ir-or-rf.html" class="inline-link">how to tell an infrared PixMob from an RF Waveband 2</a>.</p>
       </div>
 
       <dl class="tech">
@@ -560,6 +565,7 @@ p{margin:0}
 <footer class="foot">
   <div class="wrap">
     <div class="foot__row">
+      <a href="ir-or-rf.html">Infrared or RF?</a>
       <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero">Repository on GitHub</a>
       <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/PROTOCOL.md">RF protocol notes</a>
       <a href="https://github.com/weeknds/pixmob-wave2-flipper-zero/blob/main/LICENSE">MIT license</a>

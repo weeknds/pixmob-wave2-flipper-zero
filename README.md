@@ -36,6 +36,22 @@ sequence — that is deliberate, not Flipper lag.
 > European 868.415 MHz hardware and transmits on group 0 with the internal
 > CC1101 — no external radio module is required.
 
+## Did PixMob IR codes do nothing for you?
+
+Then your wristband is probably a radio model, and no infrared file will ever
+reach it. PixMob makes both kinds:
+
+| Wristband | Control medium | Use |
+|---|---|---|
+| Classic PixMob (dark IR window on the housing) | Infrared | An IR project such as [`danielweidman/flipper-pixmob-ir-codes`](https://github.com/danielweidman/flipper-pixmob-ir-codes), via the **Infrared** app |
+| **PixMob Waveband 2, Europe** (no IR window) | Radio, **868.415 MHz** | **This repository**, via **Sub-GHz → Saved** |
+| Other regional RF Wavebands | Radio, other frequencies | Not covered here — [`PROTOCOL.md`](PROTOCOL.md) is a starting point |
+
+The quickest physical tell is that dark translucent window: an infrared
+receiver needs to see through one, a radio receiver does not. Full explanation
+and troubleshooting: **[Is your PixMob infrared or
+RF?](https://weeknds.github.io/pixmob-wave2-flipper-zero/ir-or-rf.html)**
+
 ## Confirmed configuration
 
 | Property | Value |
